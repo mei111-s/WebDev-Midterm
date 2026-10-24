@@ -1,4 +1,22 @@
 (function () {
+  const loader = document.getElementById('loader');
+  if (!loader) return;
+  const start = performance.now();
+  const MIN_TIME = 6000; 
+  let hidden = false;
+  function hide() {
+    if (hidden) return;
+    hidden = true;
+    loader.classList.add('done');
+    document.body.classList.remove('loading');
+    setTimeout(() => loader.remove(), 700);
+  }
+  function ready() { setTimeout(hide, Math.max(0, MIN_TIME - (performance.now() - start))); }
+  if (document.readyState === 'complete') ready(); else addEventListener('load', ready);
+  setTimeout(hide, 9000); 
+})();
+
+(function () {
   const $ = (s, el = document) => el.querySelector(s);
   const $$ = (s, el = document) => [...el.querySelectorAll(s)];
   const reduceMotion = matchMedia('(prefers-reduced-motion: reduce)').matches;
